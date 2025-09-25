@@ -1,0 +1,79 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy-production:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout repo
+      - uses: actions/checkout@v3
+
+      # Login to Azure
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # Connect to AKS
+      - name: Get AKS Credentials
+        run: |
+          az aks get-credentials \
+            --resource-group sit722-rg \
+            --name sit722-aks-prod \
+            --overwrite-existing
+
+      # Ensure namespace exists
+      - name: Create Namespace (if not exists)
+        run: kubectl create namespace prod || true
+
+      # Create image pull secret for ACR
+      - name: Create Image Pull Secret
+        run: |
+          kubectl create secret docker-registry acr-secret \
+            --docker-server=sit722acremmalu.azurecr.io \
+            --docker-username=${{ secrets.ACR_USERNAME }} \
+            --docker-password=${{ secrets.ACR_PASSWORD }} \
+            -n prod || true
+
+      # Deploy all services & deployments
+      - name: Deploy to Production
+        run: |
+          kubectl apply -f k8s/customer-deployment.yaml -n prod
+          kubectl apply -f k8s/customer-service.yaml -n prod
+          kubectl apply -f k8s/order-deployment.yaml -n prod
+          kubectl apply -f k8s/order-service.yaml -n prod
+          kubectl apply -f k8s/product-deployment.yaml -n prod
+          kubectl apply -f k8s/product-service.yaml -n prod
+          kubectl apply -f k8s/frontend-deployment.yaml -n prod
+          kubectl apply -f k8s/frontend-service.yaml -n prod
+          kubectl apply -f k8s/ingress.yaml -n prod
+
+      # Wait and verify pods/services
+      - name: Verify Production Deployment
+        run: |
+          echo "⏳ Waiting for pods to become ready..."
+          kubectl rollout status deployment/customer-deployment -n prod --timeout=120s
+          kubectl rollout status deployment/order-deployment -n prod --timeout=120s
+          kubectl rollout status deployment/product-deployment -n prod --timeout=120s
+          kubectl rollout status deployment/frontend-deployment -n prod --timeout=120s
+
+          echo "✅ Pods status:"
+          kubectl get pods -n prod -o wide
+
+          echo "✅ Services:"
+          kubectl get svc -n prod
+
+      # Rollback in case of failure
+      - name: Rollback on Failure
+        if: failure()
+        run: |
+          echo "⚠️ Rolling back failed deployments..."
+          kubectl rollout undo deployment/customer-deployment -n prod || true
+          kubectl rollout undo deployment/order-deployment -n prod || true
+          kubectl rollout undo deployment/product-deployment -n prod || true
+          kubectl rollout undo deployment/frontend-deployment -n prod || true
