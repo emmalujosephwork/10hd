@@ -1,0 +1,46 @@
+# OS / Editor files
+*.log
+*.tmp
+*.swp
+*.DS_Store
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+
+# Node (frontend)
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+build/
+
+# Docker
+*.tar
+*.img
+
+# Terraform
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.backup
+
+# Azure Credentials
+infra/azure_credentials.json
+
+# GitHub Actions cache
+*.bak
+*.old
+
+# Ignore large binaries
+infra/.terraform/
+infra/.terraform/*
