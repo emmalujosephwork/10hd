@@ -4,6 +4,7 @@ metadata:
   name: order-service
   namespace: staging
 spec:
+  type: LoadBalancer
   selector:
     app: order
   ports:

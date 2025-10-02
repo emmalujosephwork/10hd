@@ -4,6 +4,7 @@ metadata:
   name: customer-service
   namespace: staging
 spec:
+  type: LoadBalancer
   selector:
     app: customer
   ports:
