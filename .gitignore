@@ -1,0 +1,76 @@
+# ----------------------------
+# OS / Editor
+# ----------------------------
+*.log
+*.tmp
+*.swp
+*.swo
+*.DS_Store
+Thumbs.db
+ehthumbs.db
+.vscode/
+.idea/
+
+# ----------------------------
+# Python
+# ----------------------------
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.eggs/
+.Python
+.venv/
+env/
+venv/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# ----------------------------
+# Node.js (frontend)
+# ----------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dist/
+build/
+.cache/
+
+# ----------------------------
+# Docker
+# ----------------------------
+*.tar
+*.img
+.dockerignore
+
+# ----------------------------
+# Terraform
+# ----------------------------
+# Local .terraform directories
+.terraform/
+infra/.terraform/
+infra/.terraform/*
+
+# Lock & state files
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+terraform.tfstate
+terraform.tfstate.*
+infra/terraform.tfstate
+infra/terraform.tfstate.backup
+
+# ----------------------------
+# Azure Credentials
+# ----------------------------
+infra/azure_credentials.json
+
+# ----------------------------
+# GitHub Actions cache & misc
+# ----------------------------
+*.bak
+*.old
+*.swp
+*.swo

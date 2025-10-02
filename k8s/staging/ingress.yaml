@@ -7,7 +7,7 @@ metadata:
     kubernetes.io/ingress.class: nginx
 spec:
   rules:
-    - host: staging.sit722app.com   # 🔴 Replace with your staging domain
+    - host: staging.sit722app.com   # Replace with your real staging domain
       http:
         paths:
           - path: /customers

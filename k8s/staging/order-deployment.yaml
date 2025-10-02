@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: order
-          image: sit722acremmalu.azurecr.io/order_service:staging
+          image: sit722acremmalu.azurecr.io/order-service:staging
           ports:
             - containerPort: 8001
           env:
