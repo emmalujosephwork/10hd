@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: customer-service
-          image: sit722acremmalu.azurecr.io/customer_service:latest
+          image: sit722acremmalu.azurecr.io/customer-service:latest
           ports:
             - containerPort: 8000
           resources:

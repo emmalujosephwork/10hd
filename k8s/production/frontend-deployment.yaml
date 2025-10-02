@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: frontend-service
-          image: sit722acremmalu.azurecr.io/frontend_service:latest
+          image: sit722acremmalu.azurecr.io/frontend-service:latest
           ports:
             - containerPort: 3000
           resources:
