@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: sit722acremmalu.azurecr.io/frontend_service:staging
+          image: sit722acremmalu.azurecr.io/frontend-service:staging
           ports:
             - containerPort: 80
       imagePullSecrets:
