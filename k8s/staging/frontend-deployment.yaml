@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: frontend-deployment
   namespace: staging
+  labels:
+    app: frontend
 spec:
   replicas: 1
   selector:
@@ -18,5 +20,38 @@ spec:
           image: sit722acremmalu.azurecr.io/frontend-service:staging
           ports:
             - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 15
+            periodSeconds: 20
       imagePullSecrets:
         - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: staging
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
