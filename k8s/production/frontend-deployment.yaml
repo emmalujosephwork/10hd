@@ -29,3 +29,16 @@ spec:
               memory: "256Mi"
       imagePullSecrets:
         - name: acr-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: production
+spec:
+  type: LoadBalancer
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: 3000
