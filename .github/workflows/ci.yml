@@ -57,8 +57,11 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
       - name: Login to ACR
-        run: |
-          az acr login --name sit722acremmalu
+        uses: azure/docker-login@v1
+        with:
+          login-server: sit722acremmalu.azurecr.io
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
       - name: Build & Push Images
         run: |
           docker build -t sit722acremmalu.azurecr.io/customer-service:${{ github.sha }} ./backend/customer_service
@@ -98,8 +101,8 @@ jobs:
           kubectl delete secret acr-secret -n staging --ignore-not-found
           kubectl create secret docker-registry acr-secret \
             --docker-server=sit722acremmalu.azurecr.io \
-            --docker-username=$(az acr credential show --name sit722acremmalu --query username -o tsv) \
-            --docker-password=$(az acr credential show --name sit722acremmalu --query "passwords[0].value" -o tsv) \
+            --docker-username=${{ secrets.ACR_USERNAME }} \
+            --docker-password=${{ secrets.ACR_PASSWORD }} \
             -n staging
       - name: Patch Manifests with Commit SHA
         run: sed -i "s|:staging|:${{ github.sha }}|g" k8s/staging/*.yaml
@@ -135,8 +138,8 @@ jobs:
           kubectl delete secret acr-secret -n production --ignore-not-found
           kubectl create secret docker-registry acr-secret \
             --docker-server=sit722acremmalu.azurecr.io \
-            --docker-username=$(az acr credential show --name sit722acremmalu --query username -o tsv) \
-            --docker-password=$(az acr credential show --name sit722acremmalu --query "passwords[0].value" -o tsv) \
+            --docker-username=${{ secrets.ACR_USERNAME }} \
+            --docker-password=${{ secrets.ACR_PASSWORD }} \
             -n production
       - name: Patch Manifests with Commit SHA
         run: sed -i "s|:latest|:${{ github.sha }}|g" k8s/production/*.yaml
