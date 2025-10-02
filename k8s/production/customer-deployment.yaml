@@ -1,41 +1,41 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order-deployment
+  name: customer-deployment
   namespace: production
   labels:
-    app: order
+    app: customer
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: order
+      app: customer
   template:
     metadata:
       labels:
-        app: order
+        app: customer
     spec:
       containers:
-        - name: order
-          image: sit722acremmalu.azurecr.io/order-service:latest
+        - name: customer
+          image: sit722acremmalu.azurecr.io/customer-service:latest
           ports:
-            - containerPort: 8001
+            - containerPort: 8000
           env:
             - name: DATABASE_URL
-              value: "postgresql://postgres:postgres@order-db:5432/orders"
+              value: "postgresql://postgres:postgres@customer-db:5432/customers"
       imagePullSecrets:
         - name: acr-secret
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: order-service
+  name: customer-service
   namespace: production
 spec:
   selector:
-    app: order
+    app: customer
   ports:
     - protocol: TCP
-      port: 8001
-      targetPort: 8001
+      port: 8000
+      targetPort: 8000
   type: ClusterIP
