@@ -8,6 +8,6 @@ spec:
     app: frontend
   ports:
     - protocol: TCP
-      port: 3000
-      targetPort: 3000
-  type: ClusterIP
+      port: 80          # Expose on port 80 (standard web port)
+      targetPort: 3000  # Your frontend container listens on 3000
+  type: LoadBalancer     # <-- change from ClusterIP

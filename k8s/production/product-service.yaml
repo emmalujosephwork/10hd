@@ -10,4 +10,4 @@ spec:
     - protocol: TCP
       port: 8002
       targetPort: 8002
-  type: ClusterIP
+  type: LoadBalancer

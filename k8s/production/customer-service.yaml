@@ -8,6 +8,6 @@ spec:
     app: customer
   ports:
     - protocol: TCP
-      port: 8000
-      targetPort: 8000
-  type: ClusterIP
+      port: 8000       # Port exposed externally
+      targetPort: 8000 # Container port
+  type: LoadBalancer
