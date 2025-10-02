@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: product-service
-          image: sit722acremmalu.azurecr.io/product_service:latest
+          image: sit722acremmalu.azurecr.io/product-service:latest
           ports:
             - containerPort: 8002
           resources:

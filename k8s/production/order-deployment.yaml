@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: order-service
-          image: sit722acremmalu.azurecr.io/order_service:latest
+          image: sit722acremmalu.azurecr.io/order-service:latest
           ports:
             - containerPort: 8001
           resources:
