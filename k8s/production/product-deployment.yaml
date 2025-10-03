@@ -22,7 +22,7 @@ spec:
             - containerPort: 8002
           env:
             - name: DATABASE_URL
-              value: "postgresql://postgres:postgres@product-db:5432/products"
+              value: "postgresql://postgres:postgres@product-db-service:5432/products"
       imagePullSecrets:
         - name: acr-secret
 ---
