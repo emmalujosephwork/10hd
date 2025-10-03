@@ -20,6 +20,6 @@ spec:
             - containerPort: 8001
           env:
             - name: DATABASE_URL
-              value: "postgresql://postgres:postgres@order-db:5432/orders"
+              value: "postgresql://postgres:postgres@order-db-service:5432/orders"
       imagePullSecrets:
         - name: acr-secret
